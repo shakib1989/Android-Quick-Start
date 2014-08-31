@@ -19,20 +19,25 @@
  * under the License.
  */
  -->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.shakib.quickstart"
-    android:versionCode="1"
-    android:versionName="1.0" >
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
 
-    <uses-sdk
-        android:minSdkVersion="16"
-        android:targetSdkVersion="19" />
+    <FrameLayout
+        android:id="@+id/content_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-    <application
-        android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
-    </application>
+    <FrameLayout
+        android:id="@+id/left_drawer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/white"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp" />
 
-</manifest>
+</android.support.v4.widget.DrawerLayout>

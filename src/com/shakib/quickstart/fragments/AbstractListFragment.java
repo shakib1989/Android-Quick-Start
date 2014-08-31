@@ -1,5 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- 
 /**
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,21 +16,27 @@
  * specific language governing permissions and limitations
  * under the License.
  */
- -->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.shakib.quickstart"
-    android:versionCode="1"
-    android:versionName="1.0" >
 
-    <uses-sdk
-        android:minSdkVersion="16"
-        android:targetSdkVersion="19" />
+package com.shakib.quickstart.fragments;
 
-    <application
-        android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
-    </application>
+import android.app.ListFragment;
+import android.os.Bundle;
+import android.widget.BaseAdapter;
 
-</manifest>
+/**
+ * 
+ * @author Mohammed Shakib
+ *
+ */
+public abstract class AbstractListFragment extends ListFragment {
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        initializeData();
+        setListAdapter(this.initializeListAdapter());
+    }
+    
+    protected abstract void initializeData();
+    protected abstract BaseAdapter initializeListAdapter();    
+}
