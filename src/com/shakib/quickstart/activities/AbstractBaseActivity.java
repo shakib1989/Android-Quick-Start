@@ -1,18 +1,18 @@
 /**
  * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
+ * or more contributor license agreements. See the NOTICE file
  * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
+ * regarding copyright ownership. The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * with the License. You may obtain a copy of the License at
  * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- *   
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
+ * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations
  * under the License.
  */
@@ -20,6 +20,7 @@
 package com.shakib.quickstart.activities;
 
 import java.lang.reflect.Field;
+import java.net.InetAddress;
 
 import com.shakib.quickstart.R;
 
@@ -28,7 +29,10 @@ import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.ViewConfiguration;
 
@@ -36,25 +40,26 @@ import android.view.ViewConfiguration;
 /**
  * 
  * @author Mohammed Shakib
- *
+ * 
  */
 public abstract class AbstractBaseActivity extends Activity {
 
     AlertDialog alertExitDialog;
     AlertDialog alertDialog;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
         this.getOverflowMenu();
         this.onBaseActivityAfterInitialize();
-    }    
-    
+    }
+
     public abstract void onBaseActivityAfterInitialize();
-    
+
     /**
-     * Enables the Action Bar menu overflow. The Triple dots at the side of the screen
+     * Enables the Action Bar menu overflow. The Triple dots at the side of the
+     * screen
      */
     private void getOverflowMenu() {
         try {
@@ -71,8 +76,11 @@ public abstract class AbstractBaseActivity extends Activity {
 
     /**
      * Add Tab to Action Bar
-     * @param title - The tab Title
-     * @param listener - The tab listener
+     * 
+     * @param title
+     *            - The tab Title
+     * @param listener
+     *            - The tab listener
      */
     public void addTab(String title, ActionBar.TabListener listener) {
         ActionBar.Tab tab = this.getActionBar().newTab().setText(title);
@@ -98,7 +106,8 @@ public abstract class AbstractBaseActivity extends Activity {
         return new ActionBar.TabListener() {
 
             @Override
-            public void onTabReselected(Tab tab, android.app.FragmentTransaction ft) {}
+            public void onTabReselected(Tab tab, android.app.FragmentTransaction ft) {
+            }
 
             /**
              * Set the respective fragment as the content
@@ -109,7 +118,8 @@ public abstract class AbstractBaseActivity extends Activity {
             }
 
             @Override
-            public void onTabUnselected(Tab tab, android.app.FragmentTransaction ft) {}
+            public void onTabUnselected(Tab tab, android.app.FragmentTransaction ft) {
+            }
 
         };
     }
@@ -141,7 +151,9 @@ public abstract class AbstractBaseActivity extends Activity {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle(title);
         alertDialogBuilder.setMessage(message).setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {}
+
+            public void onClick(DialogInterface dialog, int id) {
+            }
         });
         alertDialog = alertDialogBuilder.create();
         alertDialog.show();
@@ -159,15 +171,46 @@ public abstract class AbstractBaseActivity extends Activity {
         if (alertExitDialog != null && alertExitDialog.isShowing()) {
             alertExitDialog.dismiss();
         }
-        final Activity activity=this;
+        final Activity activity = this;
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle(title);
         alertDialogBuilder.setMessage(message).setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
             public void onClick(DialogInterface dialog, int id) {
                 activity.finish();
             }
         });
         alertExitDialog = alertDialogBuilder.create();
         alertExitDialog.show();
+    }
+
+    /**
+     * Check if Device is connected to a network
+     * 
+     * @return
+     */
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        if (ni == null) {
+            // There are no active networks.
+            return false;
+        } else
+            return true;
+    }
+
+    /**
+     * 
+     * @return
+     */
+    public boolean isInternetAvailable() {
+        try {
+            InetAddress ipAddr = InetAddress.getByName("google.com");
+            if (!ipAddr.equals("")) {
+                return true;
+            }
+        } catch (Exception e) {}
+        return false;
+
     }
 }
