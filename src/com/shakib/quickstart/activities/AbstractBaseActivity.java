@@ -50,11 +50,19 @@ public abstract class AbstractBaseActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_base);
+        setContentView(this.getResourceLayout());
         this.getOverflowMenu();
         this.onBaseActivityAfterInitialize();
     }
 
+    /**
+     * 
+     * @return the resource id of the layout
+     */
+    protected int getResourceLayout(){
+        return R.layout.activity_base;
+    }
+    
     public abstract void onBaseActivityAfterInitialize();
 
     /**

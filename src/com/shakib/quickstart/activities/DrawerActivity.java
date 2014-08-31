@@ -49,7 +49,7 @@ public abstract class DrawerActivity extends AbstractBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_drawer);
+        //setContentView(R.layout.activity_drawer);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerMenu = (FrameLayout) findViewById(R.id.left_drawer);
 
@@ -78,6 +78,13 @@ public abstract class DrawerActivity extends AbstractBaseActivity {
         this.getActionBar().setHomeButtonEnabled(true);
         this.onDrawerActivityAfterInitialize();
     }
+    
+
+    @Override
+    protected int getResourceLayout(){
+        return R.layout.activity_drawer;
+    }
+
     
     public void onBaseActivityAfterInitialize(){}
 
@@ -114,16 +121,7 @@ public abstract class DrawerActivity extends AbstractBaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * Set the method content body for native fragments
-     * 
-     * @param fragment - The fragment to show as the content
-     */
-    @Override
-    public void setContent(Fragment fragment) {
-        getFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
-    }
-
+   
     /**
      * Set the method content body for native fragments
      * 
